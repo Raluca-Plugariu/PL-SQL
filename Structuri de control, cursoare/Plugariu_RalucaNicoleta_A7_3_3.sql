@@ -1,0 +1,52 @@
+drop table ZODIE;
+/
+Create table ZODIE (
+NUME_ZODIE VARCHAR2(100) primary key,
+DATA_INCEPUT DATE,
+DATA_SFARSIT DATE
+);
+ 
+INSERT INTO ZODIE(NUME_ZODIE, DATA_INCEPUT,DATA_SFARSIT) values('Berbec',TO_DATE('03/21/1997','MM/DD/YYYY'),TO_DATE('04/20/1997','MM/DD/YYYY'));
+INSERT INTO ZODIE(NUME_ZODIE, DATA_INCEPUT,DATA_SFARSIT) values('Taur',TO_DATE('04/21/1997','MM/DD/YYYY'),TO_DATE('05/21/1997','MM/DD/YYYY'));
+INSERT INTO ZODIE(NUME_ZODIE, DATA_INCEPUT,DATA_SFARSIT) values('Gemeni',TO_DATE('05/22/1997','MM/DD/YYYY'),TO_DATE('07/21/1997','MM/DD/YYYY'));
+INSERT INTO ZODIE(NUME_ZODIE, DATA_INCEPUT,DATA_SFARSIT) values('Rac',TO_DATE('06/22/1997','MM/DD/YYYY'),TO_DATE('07/22/1997','MM/DD/YYYY'));
+INSERT INTO ZODIE(NUME_ZODIE, DATA_INCEPUT,DATA_SFARSIT) values('Leu',TO_DATE('07/23/1997','MM/DD/YYYY'),TO_DATE('09/22/1997','MM/DD/YYYY'));
+INSERT INTO ZODIE(NUME_ZODIE, DATA_INCEPUT,DATA_SFARSIT) values('Fecioara',TO_DATE('08/23/1997','MM/DD/YYYY'),TO_DATE('09/22/1997','MM/DD/YYYY'));
+INSERT INTO ZODIE(NUME_ZODIE, DATA_INCEPUT,DATA_SFARSIT) values('Balanta',TO_DATE('09/23/1997','MM/DD/YYYY'),TO_DATE('10/22/1997','MM/DD/YYYY'));
+INSERT INTO ZODIE(NUME_ZODIE, DATA_INCEPUT,DATA_SFARSIT) values('Scorpion',TO_DATE('10/23/1997','MM/DD/YYYY'),TO_DATE('11/21/1997','MM/DD/YYYY'));
+INSERT INTO ZODIE(NUME_ZODIE, DATA_INCEPUT,DATA_SFARSIT) values('Sagetator',TO_DATE('11/22/1997','MM/DD/YYYY'),TO_DATE('12/21/1997','MM/DD/YYYY'));
+INSERT INTO ZODIE(NUME_ZODIE, DATA_INCEPUT,DATA_SFARSIT) values('Capricorn',TO_DATE('12/22/1997','MM/DD/YYYY'),TO_DATE('01/19/1997','MM/DD/YYYY'));
+INSERT INTO ZODIE(NUME_ZODIE, DATA_INCEPUT,DATA_SFARSIT) values('Varsator',TO_DATE('01/20/1997','MM/DD/YYYY'),TO_DATE('02/18/1997','MM/DD/YYYY'));
+INSERT INTO ZODIE(NUME_ZODIE, DATA_INCEPUT,DATA_SFARSIT) values('Pesti',TO_DATE('02/19/1997','MM/DD/YYYY'),TO_DATE('03/20/1997','MM/DD/YYYY'));
+
+
+DECLARE
+CURSOR lista_studenti IS select * from S_USERS;
+CURSOR lista_zodii IS select * from ZODIE;
+v_std_student lista_studenti%ROWTYPE;
+v_std_zodie lista_zodii%ROWTYPE;
+
+BEGIN
+OPEN lista_studenti;
+LOOP
+    FETCH lista_studenti INTO v_std_student;
+    EXIT WHEN lista_studenti%NOTFOUND;
+    OPEN lista_zodii;
+    LOOP
+        FETCH lista_zodii INTO v_std_zodie;
+        EXIT WHEN lista_zodii%NOTFOUND;
+        IF(v_std_student.data_nastere<v_std_zodie.data_sfarsit and v_std_student.data_nastere>v_std_zodie.data_inceput)
+        THEN DBMS_OUTPUT.PUT_LINE(v_std_student.nume||' '||v_std_student.prenume||' '||v_std_student.data_nastere||' '|| v_std_zodie.nume_zodie);
+        END IF;
+    END LOOP;
+    CLOSE lista_zodii;
+END LOOP;
+CLOSE lista_studenti;
+END;
+
+
+    
+    
+
+
+
